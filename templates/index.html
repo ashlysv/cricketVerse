@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CricketVerse AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Set light blue background and ensure the body takes up the full viewport height */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            background-color: #e0f7fa; /* Light blue background */
+            background-image: '22432.jpg'
+        }
+
+        /* Style the main container */
+        .container {
+            text-align: center;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background-color: #fff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        /* Style for the dark blue title */
+        .title {
+            color: #0d47a1; /* Dark blue color */
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Style the input and submit button */
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 12px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Centering the response text */
+        .response {
+            margin-top: 20px;
+            font-style: italic;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="title">Ask CricketVerse AI</h2>
+        <form action="/submit-question" method="post">
+            <input type="text" id="question" name="question" placeholder="Enter your question here" required>
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if response %}
+            <p class="response">{{ response }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
