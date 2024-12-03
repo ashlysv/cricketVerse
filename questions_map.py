@@ -49,7 +49,7 @@ def query_gpt(question):
                 {"role": "system",
                  "content": f"You are a helpful assistant that maps user questions to database tables and also provides human-readable explanations. Here's the schema information:\n{SCHEMA_INFO}"},
                 {"role": "user",
-                 "content": f"Which table should be queried for this question: '{question}'? Please return the result as a JSON object with two keys: 'sql' for the query string and 'explanation' for a human-readable one liner of the result, e.g., {{\"sql\": \"SELECT * FROM table_name WHERE condition;\", \"explanation\": \"This query retrieves the top player with the highest runs scored.\"}}"}
+                 "content": f"Which table should be queried for this question: '{question}'? Please return the result as a JSON object with two keys: 'sql' for the query string and 'explanation' for a human-readable one liner of the expected output of the sql query, e.g., {{\"sql\": \"SELECT * FROM table_name WHERE condition;\", \"explanation\": \"The player who score the most is <sql query result>>.\"}}"}
             ],
             temperature=0
         )
@@ -70,7 +70,6 @@ def query_gpt(question):
 def answers(question):
     try:
         sql_query, explanation = query_gpt(question)
-        # gpt_response = 'SELECT batter AS player_name, SUM(runs_total) AS total_runs FROM Deliveries GROUP BY batter ORDER BY total_runs DESC LIMIT 1;'
         if sql_query:
             with get_db_connection() as conn:
                 cursor = conn.cursor()
@@ -80,8 +79,8 @@ def answers(question):
                     # Convert row to dictionary
                     result_dict = dict(result)
                     # Construct a human-readable output
-                    readable_result = ", ".join(f"{key}: {value}" for key, value in result_dict.items())
-                    return f"{explanation}\nResult: {readable_result}."
+                    readable_result = ", ".join(f"{value}" for key, value in result_dict.items())
+                    return f"{explanation}\n {readable_result}."
                 # return "No result found or unable to process the query."
 
             # Use NLP to parse the question
@@ -214,5 +213,5 @@ def answers(question):
         return f"An error occurred while processing your question: {str(e)}"
 
 
-ans = answers('How many teams have played in the last 5 years')
-print(ans)
+# ans = answers('How many teams have played in the last 5 years')
+# print(ans)
